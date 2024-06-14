@@ -37,18 +37,21 @@ function Home() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      setTodo([...todo, { id: Date.now(), inputValue }]);
+      setTodo([...todo, { id: Date.now(), inputValue, completed: false }]);
       setInputValue("");
     }
   };
 
-const handleDelete = (id) => {
-  setTodo(todo.filter((item) => item.id !== id));
-};
-
-  //   const handleDelete = (itemToDelete) => {
-  //     setTodo(todo.filter((item) => item !== itemToDelete));
-  //   };
+  const handleDelete = (id) => {
+    setTodo(todo.filter((item) => item.id !== id));
+  };
+  const handleToggleComplete = (id) => {
+    setTodo(
+      todo.map((item) =>
+        item.id === id ? { ...item, completed: !item.completed } : item
+      )
+    );
+  };
 
   return (
     <>
@@ -62,7 +65,11 @@ const handleDelete = (id) => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
-      <ListDisplay todo={filteredTodo} handleDelete={handleDelete} />
+      <ListDisplay
+        todo={filteredTodo}
+        handleDelete={handleDelete}
+        handleToggleComplete={handleToggleComplete}
+      />
     </>
   );
 }
