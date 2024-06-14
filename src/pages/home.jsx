@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import Form from "../components/addform";
 import ListDisplay from "../components/displaylist";
+import Search from "../components/search";
 
 function Home() {
   const [todo, setTodo] = useState(() => {
@@ -13,37 +14,55 @@ function Home() {
     }
   });
   const [inputValue, setInputValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredTodo, setFilteredTodo] = useState(todo);
 
   useEffect(() => {
     localStorage.setItem("todo", JSON.stringify(todo));
   }, [todo]);
+  useEffect(() => {
+    setFilteredTodo(
+      todo.filter((item) =>
+        item.inputValue.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    );
+  }, [searchValue, todo]);
   const handleChange = (e) => {
     setInputValue(e.target.value);
+  };
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (inputValue) {
-      setTodo([...todo, inputValue.trim()]);
+    if (inputValue.trim()) {
+      setTodo([...todo, { id: Date.now(), inputValue }]);
       setInputValue("");
     }
   };
 
-  const handleDelete = (index) => {
-    const newTodos = [...todo];
-    newTodos.splice(index, 1);
-    setTodo(newTodos);
-  };
+const handleDelete = (id) => {
+  setTodo(todo.filter((item) => item.id !== id));
+};
+
+  //   const handleDelete = (itemToDelete) => {
+  //     setTodo(todo.filter((item) => item !== itemToDelete));
+  //   };
 
   return (
     <>
       <Header />
+      <Search
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+      />
       <Form
         inputValue={inputValue}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
-      <ListDisplay todo={todo} handleDelete={handleDelete} />
+      <ListDisplay todo={filteredTodo} handleDelete={handleDelete} />
     </>
   );
 }

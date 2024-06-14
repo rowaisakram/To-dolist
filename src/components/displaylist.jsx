@@ -3,10 +3,10 @@ const ListDisplay = ({ todo, handleDelete }) => {
   return (
     <div>
       <ul>
-        {todo.map((item, index) => (
-          <li key={index} className="task">
-            {item}
-            <button onClick={() => handleDelete(index)}>
+        {todo.map((item) => (
+          <li key={item.id} className="task">
+            {item.inputValue}
+            <button onClick={() => handleDelete(item.id)}>
               <i className="fa-solid fa-trash"></i>
             </button>
           </li>
