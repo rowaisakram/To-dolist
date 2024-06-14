@@ -1,0 +1,31 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+body {
+  background-color: black;
+}
+input {
+  border: 1px solid;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 7px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: white;
+  border: 1px solid;
+  border-radius: 5px;
+}
+.task button {
+  color: #000;
+}
+h1 {
+  color: white;
+}
